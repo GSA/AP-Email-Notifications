@@ -1,0 +1,465 @@
+Public Sub AP_Initiate()
+
+
+Workbooks.Add
+
+Dim Today
+Today = Format(Now(), "mm.dd.yy")
+
+ActiveWorkbook.SaveAs Filename:= _
+        "\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\AP Notification Working File " & Today & ".xlsx" _
+        , FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
+
+
+
+Sheets("Sheet1").Name = "All Detail by Invoice"
+
+Sheets.Add After:=Sheets(Sheets.Count)
+        Sheets("Sheet2").Name = "All Detail by Fund"
+
+Sheets.Add After:=Sheets(Sheets.Count)
+        Sheets("Sheet3").Name = "CO-CS-FCO List"
+        
+Sheets.Add After:=Sheets(Sheets.Count)
+        Sheets("Sheet4").Name = "Missing Contact (Linked)"
+
+Sheets.Add After:=Sheets(Sheets.Count)
+        Sheets("Sheet5").Name = "Never Contact (Linked)"
+
+Sheets.Add After:=Sheets(Sheets.Count)
+        Sheets("Sheet6").Name = "Supervisor List"
+        
+'Connects Excel File to Missing Contacts sheets
+'Sheets("Missing Contact (Linked)").Select
+'   With ActiveSheet.QueryTables.Add(Connection:= _
+'        "URL;https://docs.google.com/a/gsa.gov/spreadsheets/d/e/2PACX-'1vTe2kLmeaOCZZ-'r7J2XnwSJlxac_Wz4MjNz_EnSgTf4u9CGkTw8fFsQoW2zRtYh3VI-blZu9u3wzrO7/pubhtml" _
+'        , Destination:=Range("$A$1"))
+'        .Name = "pubhtml"
+'        .FieldNames = True
+'        .RowNumbers = False
+'        .FillAdjacentFormulas = False
+'        .PreserveFormatting = True
+'        .RefreshOnFileOpen = False
+'        .BackgroundQuery = True
+'        .RefreshStyle = xlInsertDeleteCells
+'        .SavePassword = False
+'        .SaveData = True
+'        .AdjustColumnWidth = True
+'        .RefreshPeriod = 0
+'        .WebSelectionType = xlEntirePage
+'        .WebFormatting = xlWebFormattingNone
+'        .WebPreFormattedTextToColumns = True
+'        .WebConsecutiveDelimitersAsOne = True
+'        .WebSingleBlockTextImport = False
+'        .WebDisableDateRecognition = False
+'        .WebDisableRedirections = False
+'        .Refresh BackgroundQuery:=False
+'    End With
+        
+ActiveWorkbook.Save
+ActiveWorkbook.close
+
+End Sub
+
+
+Public Sub AP_Notification_Heavy()
+Application.ScreenUpdating = False
+
+'Checking the structure of the working file tab names
+'Dim SheetCounter1
+'Dim ByInvoice_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "All Detail by Invoice" Then
+'        ByInvoice_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'
+'Dim ByFund_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "All Detail by Fund" Then
+'        ByFund_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'
+'Dim Co_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "CO-CS-FCO List" Then
+'        Co_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'Dim Missing_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "Missing Contact (linked)" Then
+'        Missing_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'Dim never_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "Never Contact (linked)" Then
+'        never_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'Dim Super_Exists As Boolean
+'    For SheetCounter1 = 1 To Sheets.Count
+'    If Sheets(SheetCounter1).Name = "Supervisor List" Then
+'        Super_Exists = True
+'        Exit For
+'    End If
+'    Next SheetCounter1
+'
+'If ByInvoice_Exists = False Or ByFund_Exists = False Or Co_Exists = False Or Missing_Exists = False Or never_Exists = False Or Super_Exists = False Then
+'    Dim Answer
+'    Answer = MsgBox(prompt:="Does this Working file have the following tabs? 'All Detail by Invoice', 'All Detail by Fund',CO-CS-FCO list,Never contact (linked)',Missing contact (linked), and 'Supervisor List'", Buttons:=vbYesNo)
+'        If Answer <> 6 Then
+'        MsgBox prompt:="Please ensure the tabs are named properly and run add-in again."
+'        Exit Sub
+'        End If
+'    End If
+'
+
+Sheets("All Detail by Invoice").Select
+
+
+'counts rows with content and stores as dimension to use later
+Dim Last_row As Integer
+    Last_row = ActiveSheet.UsedRange.Rows.Count
+
+    ActiveSheet.Range("$A:$U").AutoFilter Field:=10, Criteria1:=Array( _
+        "FSS", "FTS", "OTHER", "TOPS"), Operator:=xlFilterValues
+    
+'selects all rows to delete
+
+    Rows("2:" & Last_row).Select
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A:$U").AutoFilter Field:=10
+    
+    
+'moves to detail by fund to do same
+    Sheets("All Detail by Fund").Activate
+    
+    Last_row = ActiveSheet.UsedRange.Rows.Count
+    
+    Cells.Select
+    Selection.AutoFilter
+    
+    ActiveSheet.Range("$A:$Z").AutoFilter Field:=10, Criteria1:=Array( _
+        "FTS", "OTHER", "TOPS", "="), Operator:=xlFilterValues
+    
+    Rows("2:" & Last_row).Select
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A:$Z").AutoFilter Field:=10
+    
+                                                                            
+'Forces formatting of Budget Activity
+    
+    Columns("Q:Q").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    
+    Range("Q1").Select
+    ActiveCell.FormulaR1C1 = "Budget Activity"
+    
+    Range("Q2").Select
+    ActiveCell.FormulaR1C1 = "=IF(RC[1]=80,""PG80"",IF(RC[1]=61,""PG61"",RC[1]))"
+    Range("Q2").Select
+    Selection.AutoFill Destination:=Range("Q2:Q" & Last_row)
+    
+    Range("Q2:Q" & Last_row).Select
+    Columns("Q:Q").Select
+    Selection.Copy
+    Columns("R:R").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    Columns("Q:Q").Select
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'This portion works on marrying the EASi contact info with invoice reports
+
+
+ Sheets("CO-CS-FCO List").Select
+     
+'selects CO-CS-FCO List and deletes row 1-3: assumes it's a new file and has 3 blank rows before headers
+
+'    Rows("1:3").Select
+'    Selection.Delete Shift:=xlUp
+  
+ Last_row = ActiveSheet.UsedRange.Rows.Count
+       
+ 'Sorts to exclude and delete all blank PDN
+
+ 
+ Cells.Select
+    Selection.AutoFilter
+    ActiveSheet.Range("$A:$AB").AutoFilter Field:=2, Criteria1:="="
+    Rows("2:2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A:$AB").AutoFilter Field:=2
+    Selection.AutoFilter
+    
+'Creates Short Ob column'
+
+    Columns("c:c").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("c1   ").Select
+    ActiveCell.FormulaR1C1 = "Short Ob"
+    Range("c2").Select
+    ActiveCell.FormulaR1C1 = "=MID(RC[-1],2,8)"
+    Range("C2").Select
+    Selection.AutoFill Destination:=Range("C2:C" & Last_row)
+    Range("C2:C" & Last_row).Select
+    Columns("C:C").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Application.CutCopyMode = False
+       
+'Copies headings from R1-AB1 to All detail by invoice'
+    Range("s1:Ac1").Select
+    Selection.Copy
+    Sheets("All Detail by Invoice").Select
+    Range("V1").Select
+    ActiveSheet.Paste
+    ActiveWindow.SmallScroll ToRight:=3
+    
+
+    Last_row = ActiveSheet.UsedRange.Rows.Count
+    
+   
+ 
+ 'deletes unused columns
+    Columns("V:V").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("W:W").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("AA:AA").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("AC:AC").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("Z:AA").Select
+    Selection.Delete Shift:=xlToLeft
+    
+    Range("Z1").Select
+    ActiveCell.FormulaR1C1 = "Requestor"
+ 
+'checks for names in both the EASi Contacts list and Missing Contacts linked tab
+    'CO email
+    Range("v2").Formula = "=IFERROR(IFERROR(VLOOKUP(IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:T,19,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:T,18,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:E,3,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:T,19,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:T,18,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:E,3,FALSE)),'Never Contact (Linked)'!A:B,2,FALSE),IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:T,19,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:T,18,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:E,3,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:T,19,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:T,18,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:E,3,FALSE))),"""")"
+    'COR email
+    Range("y2").Formula = "=IFERROR(IFERROR(VLOOKUP(IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:X,23,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:X,22,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:F,2,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:X,23,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:X,22,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:F,2,FALSE)),'Never Contact (Linked)'!A:B,2,FALSE),IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:X,23,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:X,22,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:F,2,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:X,23,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:X,22,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:F,2,FALSE))),"""")"
+    'CS email
+    Range("w2").Formula = "=IFERROR(IFERROR(VLOOKUP(IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:V,21,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:V,20,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:E,4,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:V,21,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:V,20,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:E,4,FALSE)),'Never Contact (Linked)'!A:B,2,FALSE),IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:V,21,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:V,20,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:E,4,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:V,21,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:V,20,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:E,4,FALSE))),"""")"
+    'BA email
+    Range("x2").Formula = "=IFERROR(IFERROR(VLOOKUP(IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:W,22,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:W,21,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:F,5,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:W,22,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:W,21,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:F,5,FALSE)),'Never Contact (Linked)'!A:B,2,FALSE),IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:W,22,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:W,21,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:F,5,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:W,22,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:W,21,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:F,5,FALSE))),"""")"
+    'Requestor
+    Range("z2").Formula = "=IFERROR(IFERROR(VLOOKUP(IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:AB,27,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:AB,26,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:G,6,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:AB,27,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:AB,26,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:G,6,FALSE)),'Never Contact (Linked)'!A:B,2,FALSE),IFERROR(IF(IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:AB,27,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:AB,26,FALSE))=0,VLOOKUP(M2,'Missing Contact (Linked)'!B:G,6,FALSE),IFERROR(VLOOKUP(M2,'CO-CS-FCO List'!B:AB,27,FALSE),VLOOKUP(B2,'CO-CS-FCO List'!C:AB,26,FALSE))),VLOOKUP(M2,'Missing Contact (Linked)'!B:G,6,FALSE))),"""")"
+    
+'Marry Supervisors to CO and COR emails
+     Range("AA1").Activate
+     ActiveCell.Value = "COR Supervisor 1"
+     Range("AB1").Activate
+     ActiveCell.Value = "COR Supervisor 2"
+     Range("AC1").Activate
+     ActiveCell.Value = "CO Supervisor 1"
+     Range("AD1").Activate
+     ActiveCell.Value = "CO Supervisor 2"
+    
+    Range("AA2").Activate
+    Range("AA2").Formula = "=IFERROR(VLOOKUP(IF(IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:O,2,FALSE),""""))),'Never Contact (Linked)'!A:B,2,FALSE),IF(IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:O,2,FALSE),0))))"
+    
+    Range("AB2").Activate
+    Range("AB2").Formula = "=IFERROR(VLOOKUP(IF(IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:P,3,FALSE),""""))),'Never Contact (Linked)'!A:B,2,FALSE),IF(IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($Y2,SEARCH(""GSA.GOV"",$Y2)+6),'Supervisor List'!$M:P,3,FALSE),0))))"
+    
+    Range("AC2").Activate
+    Range("AC2").Formula = "=IFERROR(VLOOKUP(IF(IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),""""))),'Never Contact (Linked)'!A:B,2,FALSE),IF(IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,2,FALSE),0))))"
+    
+    Range("AD2").Activate
+    Range("AD2").Formula = "=IFERROR(VLOOKUP(IF(IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),""""))),'Never Contact (Linked)'!A:B,2,FALSE),IF(IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),0)=0,"""",IF(IFERROR(VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),0)<>0,VLOOKUP(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),'Never Contact (Linked)'!$B:$C,2,0),IFERROR(VLOOKUP(LEFT($V2,SEARCH(""gsa.gov"",$V2)+6),'Supervisor List'!$M:$O,3,FALSE),0))))"
+  
+     
+    
+'Sets formula to verify provided information
+    Range("AE1").Select
+    Range("AE1").Formula = "Email Status"
+    Range("AE2").Formula = "=IF(AND(H2<15,COUNTIFS(V2,""*@gsa.gov*"",Y2,""*@gsa.gov*"")=1),""READY"", IF(AND(H2>=15,COUNTIFS(V2,""*@gsa.gov*"",Y2,""*@gsa.gov*"")=1,COUNTIFS(AA2,""*@gsa.gov*"",AB2,""*@gsa.gov*"",AC2,""*@gsa.gov*"",AD2,""*@gsa.gov*"")=1),""READY"", IF(COUNTIFS(V2,""*@gsa.gov*"",Y2,""*@gsa.gov*"")<>1,""Missing CO/COR Info"",""READY"")))"
+    Range("AF1").Formula = "Dup. Check"
+    Range("AF2").Formula = "=IF(IFERROR(VLOOKUP(M2,'Missing Contact (linked)'!$B:$B,1,0),0)= M2,""Already on List"",""New PDN"")"
+    
+    Range("v2:Af2").Select
+    Selection.AutoFill Destination:=Range("v2:Af" & Last_row)
+    Range("v2:Af" & Last_row).Select
+    Selection.Columns.AutoFit
+
+'Creates blank cells where there are positive, negative, or zero numbers
+    Columns("V:AE").Select
+    Selection.NumberFormat = """"";"""";"""""
+    
+'Formats Column B to match PDN'
+    Columns("M:M").Select
+    Selection.Copy
+    Columns("B:B").Select
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+        SkipBlanks:=False, Transpose:=False
+    Application.CutCopyMode = False
+    
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'Replaces RO PDN # with 1B # from ACT/Title field
+Columns("N:N").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("N1").Select
+    ActiveCell.Formula = "Peg Doc Num"
+    Range("N2").Select
+    ActiveCell.Formula = "=IF(LEFT(M2,2)=""RO"",CONCATENATE(""1""&B2),M2)"
+    Range("N2").Select
+    Selection.AutoFill Destination:=Range("N2:N" & Last_row)
+    Columns("N:N").Select
+    Selection.Copy
+    Columns("M:M").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Columns("N:N").Select
+    Application.CutCopyMode = False
+    Selection.Delete Shift:=xlToLeft
+    Range("A1").Select
+
+Cells.Select
+    Cells.EntireColumn.AutoFit
+    Range("A1").Select
+
+ActiveWorkbook.Save
+
+    
+Application.ScreenUpdating = True
+End Sub
+
+
+Public Sub Clean_Pending()
+Application.ScreenUpdating = True
+Sheets("Contacts Pending").Activate
+Dim lastrow
+lastrow = Range("A65000").End(xlUp).Row
+Dim lr_missing
+lr_missing = Worksheets("Missing Contact (Linked)").Range("A65000").End(xlUp).Row
+
+If IsEmpty(Range("A1").Value) = False Then Range("A1").CurrentRegion.CreateNames Top:=True, Left:=False, Bottom:=False, Right:=False
+
+Columns("A:L").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+
+Range("A1") = "Region"
+Range("B1") = "Obligation PDN"
+Range("C1") = "Contracting Officer Representative"
+Range("D1") = "Contracting Officer"
+Range("E1") = "Contracting Specialist"
+Range("F1") = "Budget Analyst"
+Range("G1") = "Requestor"
+Range("H1") = "Run Date"
+
+Range("Region").Copy
+Range("A2").PasteSpecial
+
+Range("Peg_Doc_Num").Copy
+Range("B2").PasteSpecial
+
+Range("Contracting_Officer_Representative").Copy
+Range("C2").PasteSpecial
+
+Range("Contracting_Officer").Copy
+Range("D2").PasteSpecial
+
+Range("Contracting_Specialist").Copy
+Range("E2").PasteSpecial
+
+Range("Budget_Analyst").Copy
+Range("F2").PasteSpecial
+
+Range("Requestor").Copy
+Range("G2").PasteSpecial
+
+Range("Report_Date").Copy
+Range("H2").PasteSpecial
+
+Worksheets("Missing Contact (Linked)").Range("A2:I" & lr_missing).Copy
+
+Range("A" & (lastrow + 1)).PasteSpecial
+
+'Range("H:H").NumberFormat = """"";"""";"""""
+Dim lastrowa
+lastrowa = Range("A65000").End(xlUp).Row
+
+Range("I1") = "Ready"
+Range("I2").Formula = "=if(COUNTIFS(C2,""*gsa.gov"",D2,""*gsa.gov"")=1,""Yes"",""No"")"
+Range("I2").Copy
+Range("I3:I" & lastrowa).PasteSpecial
+
+Range("A1").CurrentRegion.RemoveDuplicates Columns:=2, Header:=xlYes
+
+Range("K1").Formula = "=counta(A:A)"
+
+ActiveWorkbook.Worksheets("Contacts Pending").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Contacts Pending").Sort.SortFields.Add Key:=Range("I:I") _
+        , SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    ActiveWorkbook.Worksheets("Contacts Pending").Sort.SortFields.Add Key:=Range("H:H") _
+        , SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
+    
+    ActiveWorkbook.Worksheets("Contacts Pending").Sort.SortFields.Add Key:=Range("A:A") _
+        , SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    With ActiveWorkbook.Worksheets("Contacts Pending").Sort
+        .SetRange Range("A:I")
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+
+
+Application.ScreenUpdating = True
+End Sub
+Public Sub Supervisor_link()
+'
+'
+'counts rows with content and stores as dimension to use later
+Dim Last_row As Integer
+    Last_row = ActiveSheet.UsedRange.Rows.Count
+'
+    ActiveSheet.Name = "Supervisor"
+    Range("I1").Select
+    ActiveCell.FormulaR1C1 = "Dept ID2"
+Range("J1").Select
+    ActiveCell.FormulaR1C1 = "Pay Status2"
+Range("N1").Select
+    ActiveCell.FormulaR1C1 = "Super 1"
+    Range("O1").Select
+    ActiveCell.FormulaR1C1 = "Super 2"
+    
+    Range("N2").Formula = "=IFERROR(VLOOKUP(G2,D:M,10,FALSE),"""")"
+    Range("O2").Formula = "=IFERROR(VLOOKUP(VLOOKUP(G2,D:G,4,FALSE),D:M,10,FALSE),"""")"
+    
+    Range("N2:O2").Select
+    Selection.AutoFill Destination:=Range("N2:O" & Last_row)
+    
+
+End Sub
+
+
+
+
+
+
+
+

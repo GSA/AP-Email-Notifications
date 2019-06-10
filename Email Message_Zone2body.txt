@@ -1,0 +1,25 @@
+This message is to inform you that invoice # <b>{7}</b> from <br>
+<b>{8}</b> in the amount of <b>{9}</b> has been received by<br>
+GSA for contract # <b>{10}</b> and PDN <b>{11}</b> and is now <b>{12}</b> Days old<br>
+<br>
+Please take action to ensure this invoice is paid timely by submitting receiving report information to either:<br>
+	- your Contracting Officer for Construction / A&E invoices, or<br>
+	- Zone 2 PDE Tool at: https://gsa.lightning.force.com/c/PDE.app (For Non-Recurring) or<br>
+	- recurringservices@gsa.gov (for Recurring 1B, RB, EK Documents)
+
+All questions may be directed to zone2receivingreports@gsa.gov.<br>
+<br>
+The report containing today's invoice information is available at:https://goo.gl/LXwcpv  (Please see the by invoice tab with today's date)<br>
+<br>
+Invoice detail may be found using Invoice Search. Please see our Guide to Invoice Search at: https://goo.gl/E8Hnqp
+<br>
+<br>
+CO: {0}<br>
+COR: {1}<br>
+CS: {2}<br>
+COS1: {3}<br>
+COS2: {4}<br>
+CORS1: {5}<br>
+CORS2: {6}<br>
+<br>
+Email produced by RPA AP Email Notification BOT

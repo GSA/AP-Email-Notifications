@@ -1,0 +1,26 @@
+This notification is being sent to inform you Vendor <b>{7}</b> invoice # <b>{8}</b> in the amount of <b>{9}</b> has been received by Finance for Contract # <b>{10}</b>, PDN # <b>{11}</b> and is now <b>{12}</b> days old.<br>
+<br>
+To ensure this invoice is paid timely and to prevent interest penalties, please complete and submit the proper receiving report (GSA 3025, email acceptance etc.) to either:<br>
+<br>
+Please take immediate action to submit your GSA 3025 (i.e. Receiving Report) payment package to the NCR Accounts Payable Mailbox: <br>
+<br>
+ncr-accountspayable@gsa.gov (all non-construction, construction, and recurring invoices)<br>
+<br>
+If your team is using the PDE tool, please submit via the PDE link below:<br>
+<br>
+https://gsa.my.salesforce.com/500/o (only non-construction and construction only invoices)<br>
+<br>
+If you need to reject the invoice, please inform the AP Team via the ncr-accountspayable@gsa.gov mailbox. Please include in your email rejection request a reason why the invoice needs to be rejected. If you have any questions about this invoice, please feel free to contact the AP Team via the ncr-accountspayable@gsa.gov mailbox and you will receive a response within 24 hours.<br>
+<br>
+<b>If you have already submitted a receiving report, please disregard this notification. </b>
+<br>
+<br>
+CO: {0}<br>
+COR: {1}<br>
+CS: {2}<br>
+COS1: {3}<br>
+COS2: {4}<br>
+CORS1: {5}<br>
+CORS2: {6}<br>
+<br>
+Email produced by RPA AP Email Notification BOT

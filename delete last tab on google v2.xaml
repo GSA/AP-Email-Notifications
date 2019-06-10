@@ -1,0 +1,174 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="delete_last_tab_on_google_v2" this:delete_last_tab_on_google_v2.urlDailyReport="https://docs.google.com/spreadsheets/d/1LNiTZFR-HQOuEobjDPHVOxrdIYPH7oVfYy9uAbu9Heg/edit?usp=sharing"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:this="clr-namespace:"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="urlDailyReport" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>delete_last_tab_on_google_v2_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Orchestrator.Client</x:String>
+      <x:String>UiPath.Orchestrator.Client.Models</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.CSV.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.CSV</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Mail.Exchange.Activities</x:String>
+      <x:String>UiPath.Mail.IMAP.Activities</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Mail.POP3.Activities</x:String>
+      <x:String>UiPath.Mail.SMTP.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OrchestratorClient</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Sequence" sap2010:WorkflowViewState.IdRef="Sequence_27">
+    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="Delete last tab: Start" />
+    <ui:OpenBrowser UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Open browser upload by fund" Hidden="False" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" NewSession="True" Private="False" Url="[urlDailyReport]">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_29">
+            <ui:MaximizeWindow Window="{x:Null}" DisplayName="Maximize window" sap2010:WorkflowViewState.IdRef="MaximizeWindow_1" />
+            <Sequence DisplayName="Hotkeys to Upload" sap2010:WorkflowViewState.IdRef="Sequence_28">
+              <ui:TypeInto DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DelayBefore="15000" DisplayName="Type into" EmptyField="False" sap2010:WorkflowViewState.IdRef="TypeInto_18" SendWindowMessages="False" SimulateType="False" Text="%[d(alt)][d(shift)]k[u(shift)][u(alt)][k(up)][k(enter)]">
+                <ui:TypeInto.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                </ui:TypeInto.Target>
+              </ui:TypeInto>
+              <ui:TypeInto DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" Activate="True" ClickBeforeTyping="False" DelayMS="3000" DisplayName="Type into" EmptyField="False" sap2010:WorkflowViewState.IdRef="TypeInto_19" SendWindowMessages="False" SimulateType="False" Text="%[d(alt)][d(shift)]s[u(shift)][u(alt)][k(down)][k(enter)]">
+                <ui:TypeInto.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                </ui:TypeInto.Target>
+              </ui:TypeInto>
+              <ui:SendHotkey DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Send hotkey" EmptyField="False" sap2010:WorkflowViewState.IdRef="SendHotkey_1" Key="enter" KeyModifiers="None" SendWindowMessages="False" SpecialKey="True">
+                <ui:SendHotkey.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                </ui:SendHotkey.Target>
+              </ui:SendHotkey>
+            </Sequence>
+            <DoWhile DisplayName="Do while" sap2010:WorkflowViewState.IdRef="DoWhile_1">
+              <DoWhile.Variables>
+                <Variable x:TypeArguments="x:Boolean" Name="imagefound" />
+              </DoWhile.Variables>
+              <DoWhile.Condition>[imagefound = true]</DoWhile.Condition>
+              <ui:ImageFound DisplayName="Image Exists 'chrome.exe RPA'" Found="[imagefound]" sap2010:WorkflowViewState.IdRef="ImageFound_1">
+                <ui:ImageFound.Image>
+                  <ui:ImageTarget Image="{x:Null}" Accuracy="0.8" TargetImageBase64="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" />
+                </ui:ImageFound.Image>
+                <ui:ImageFound.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;" TimeoutMS="3000" WaitForReady="INTERACTIVE" />
+                </ui:ImageFound.Target>
+              </ui:ImageFound>
+            </DoWhile>
+            <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="Close window 'chrome.exe RPA'" sap2010:WorkflowViewState.IdRef="CloseWindow_1" InformativeScreenshot="2929fd7ecd852f98cccb236bcffda4a1" WaitForReady="INTERACTIVE" />
+          </Sequence>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="Delete last tab: End" />
+    <sads:DebugSymbol.Symbol>d6gBXFxlMDRibXYtY2lmczAxXFIxM19DRk9fc2hhcmUkXFIxM19SUEFcUlBBIERldmVsb3BtZW50XEFzaW1vdiBBU0ktVDA1XEFQIEVtYWlsIE5vdGlmaWNhdGlvbnMgQVNJLVQwNS1QMDFcUHJvY2VzcyBEb2N1bWVudGF0aW9uXFNjcmlwdHNcZGVsZXRlIGxhc3QgdGFiIG9uIGdvb2dsZSB2Mi54YW1sGgGDAQHoAQECUAOAAQ4CAQFRBVF3AgEbUgV9FgIBBH4FfnUCAQJRXFF0AgEcUs4BUuABAgEZWAt6FgIBBX5cfnICAQNZDVmFAQIBGFoNahgCARBrDXgXAgEHeQ15jQICAQZbD18dAgEVYA9kHQIBEmUPaR8CARFvIm81AgEOcA93HwIBCFuXAlvQAgIBF1uBAVuIAQIBFmCBAWCHAQIBFGCWAmDRAgIBE3VUdY4BAgENdZkBdZ8BAgEMcFBwXgIBCnI9ckICAQk=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="500,61" />
+      <sap2010:ViewStateData Id="MaximizeWindow_1" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="TypeInto_18" sap:VirtualizedContainerService.HintSize="314,96" />
+      <sap2010:ViewStateData Id="TypeInto_19" sap:VirtualizedContainerService.HintSize="314,96" />
+      <sap2010:ViewStateData Id="SendHotkey_1" sap:VirtualizedContainerService.HintSize="314,116" />
+      <sap2010:ViewStateData Id="Sequence_28" sap:VirtualizedContainerService.HintSize="464,512">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ImageFound_1" sap:VirtualizedContainerService.HintSize="314,106" />
+      <sap2010:ViewStateData Id="DoWhile_1" sap:VirtualizedContainerService.HintSize="464,267" />
+      <sap2010:ViewStateData Id="CloseWindow_1" sap:VirtualizedContainerService.HintSize="464,106" />
+      <sap2010:ViewStateData Id="Sequence_29" sap:VirtualizedContainerService.HintSize="486,1151">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="OpenBrowser_1" sap:VirtualizedContainerService.HintSize="500,1250">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="500,61" />
+      <sap2010:ViewStateData Id="Sequence_27" sap:VirtualizedContainerService.HintSize="522,1576">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="delete_last_tab_on_google_v2_1" sap:VirtualizedContainerService.HintSize="562,1656" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

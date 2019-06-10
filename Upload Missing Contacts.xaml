@@ -1,0 +1,270 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Main" this:Main.filePath="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\" this:Main.fileWorkingCopy="[&quot;AP Notification Working File &quot;+now.Date.ToString(&quot;MM.dd.yy&quot;)+&quot;.xlsx&quot;]" this:Main.Webpage_URL="https://docs.google.com/spreadsheets/d/1DMi-wkbm8wmIoHjNImMg6RIOKkU6pXbqZ5b69bX5p7E/edit#gid=0"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:this="clr-namespace:"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="filePath" Type="InArgument(x:String)" />
+    <x:Property Name="fileWorkingCopy" Type="InArgument(x:String)" />
+    <x:Property Name="Webpage_URL" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Main_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <TryCatch DisplayName="Try catch" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch.Try>
+      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+        <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="Upload missing contacts: Start" />
+        <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel application scope" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" WorkbookPath="[fileworkingcopy]">
+          <ui:ExcelApplicationScope.Body>
+            <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_1">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="sd:DataTable" Name="dtTemp_Missing" />
+                  <Variable x:TypeArguments="x:String" Default="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\Temp_Pending.csv" Name="Temp_Filepath" />
+                  <Variable x:TypeArguments="ui:GenericValue" Name="lastrow" />
+                </Sequence.Variables>
+                <ui:InvokeVBA OutputValue="{x:Null}" CodeFilePath="Aggregate Script.txt" DisplayName="Invoke VBA" EntryMethodName="Clean_Pending" sap2010:WorkflowViewState.IdRef="InvokeVBA_1" />
+                <ui:ExcelReadCell Cell="K1" DisplayName="Read Cell" sap2010:WorkflowViewState.IdRef="ExcelReadCell_1" SheetName="Contacts Pending">
+                  <ui:ExcelReadCell.Result>
+                    <OutArgument x:TypeArguments="ui:GenericValue">[lastrow]</OutArgument>
+                  </ui:ExcelReadCell.Result>
+                </ui:ExcelReadCell>
+                <ui:ExcelReadRange AddHeaders="True" DataTable="[dtTemp_Missing]" DisplayName="Read Range" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="[&quot;A1:I&quot;+lastrow]" SheetName="Contacts Pending" />
+                <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[dtTemp_Missing]" Delimitator="Comma" DisplayName="Write CSV" FilePath="[filePath+&quot;Temp_Missing_Contacts.csv&quot;]" sap2010:WorkflowViewState.IdRef="WriteCsvFile_1" />
+              </Sequence>
+            </ActivityAction>
+          </ui:ExcelApplicationScope.Body>
+        </ui:ExcelApplicationScope>
+        <ui:OpenBrowser UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Open browser" Hidden="False" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" NewSession="True" Private="False" Url="[Webpage_URL]">
+          <ui:OpenBrowser.Body>
+            <ActivityAction x:TypeArguments="x:Object">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Default="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts" Name="Temp_Filepath" />
+                  <Variable x:TypeArguments="x:String" Default="Temp_Pending.csv" Name="Temp_File_Name" />
+                </Sequence.Variables>
+                <ui:TypeInto DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DelayBefore="15000" DisplayName="Type into 'DIV'" EmptyField="False" sap2010:WorkflowViewState.IdRef="TypeInto_3" SendWindowMessages="False" SimulateType="False" Text="%[d(alt)]f[u(alt)]">
+                  <ui:TypeInto.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                  </ui:TypeInto.Target>
+                </ui:TypeInto>
+                <ui:TypeInto DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Type into 'DIV'" EmptyField="False" sap2010:WorkflowViewState.IdRef="TypeInto_4" SendWindowMessages="False" SimulateType="False" Text="%[d(alt)]i[u(alt)]">
+                  <ui:TypeInto.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                  </ui:TypeInto.Target>
+                </ui:TypeInto>
+                <ui:ClickImage ContinueOnError="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click image 'chrome.exe Upload'" sap2010:WorkflowViewState.IdRef="ClickImage_2" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False">
+                  <ui:ClickImage.CursorPosition>
+                    <ui:CursorPosition Position="Center">
+                      <ui:CursorPosition.OffsetX>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetX>
+                      <ui:CursorPosition.OffsetY>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetY>
+                    </ui:CursorPosition>
+                  </ui:ClickImage.CursorPosition>
+                  <ui:ClickImage.Image>
+                    <ui:ImageTarget Image="{x:Null}" Accuracy="0.8" TargetImageBase64="iVBORw0KGgoAAAANSUhEUgAAAEwAAAArCAYAAADSZm7JAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAK2SURBVGhD7ZZBSypRFMffZ3Eh+An8AK4EMUyihSLhIsFFZAsDA4UgxIVLUdqFQRDUxkW7doKb3BlRaRsRF1ooZhjWee9/mhlEDTyP9x76OD8YnJl75g7n5zl37g9SRKgwISpMiAoTosKEqDAhKkyIChOiwoSoMCEqTIgKE6LChKgwISpMiAoTslTCHh4eyOfz8e/f4Pz8nDKZjHH1e/wxYUgyHA7T8/OzceeLSqVC6+vrM/fnocJ+ocK+YRFhOBBTLBbJ7XaT3W6neDxOLy8vHDst7OPjg66urqzYSCRCT09PPAbe3t6oUCiQ0+kkh8NBsViMOp2OMUpUr9cpEAjws9FolGWtnDCcp9NpltRut2lnZ4eOjo5oPB7PCLu+via/3093d3f0/v5OZ2dntLa2Rq1Wi8ePj49pb2+P5xqNRpTNZq25cG9ra4tOTk7o9fWV59zY2Fg9YUji/v7eGCW6ubnhccibFDYcDml3d5dKpZIRSSxlf3+fW+vz85N6vR7HmeBdkAJZOA+FQlb1AghfyZZErAlaCBJxb1IYYoPBINVqNSPyi1wuZyWNysnn89ySNpuND/NdkJpIJLgyTVZ2DZsUhsqCmEWFoe2QNNoO52jJbrfLY5PvWnphjUaDPB7PTIJoqe3tbRoMBnOFIX5zc1PckuY4JJmUy2VL2NK3JJI5ODjgRbzZbPI/W61WedG+vLzkGCSChLDo9/t9TgYVgkr5btGHTHztMN/FxQXPh0Uf18lkkg4PD7nC8Ay+iKaw6UX/9vaW514aYWB6TfF6vbwtwPYAIBEkga2AuVVIpVJWFUwLw3OoMJfLZW0rHh8feQxg/cMfhDHIOj09taoVLPW2YhHmteSqocKEqDAh/1TY/4AKE6LChKgwISpMiAoTosKEqDAhKkyIChOiwoSoMCEqTATRT1xJn8DCSEjiAAAAAElFTkSuQmCC" />
+                  </ui:ClickImage.Image>
+                  <ui:ClickImage.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                  </ui:ClickImage.Target>
+                </ui:ClickImage>
+                <ui:SendHotkey DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Send hotkey" EmptyField="False" sap2010:WorkflowViewState.IdRef="SendHotkey_1" Key="enter" KeyModifiers="None" SendWindowMessages="False" SpecialKey="True">
+                  <ui:SendHotkey.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" WaitForReady="INTERACTIVE" />
+                  </ui:SendHotkey.Target>
+                </ui:SendHotkey>
+                <ui:TypeInto DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DelayBefore="3000" DisplayName="Type into 'Edit'" EmptyField="False" sap2010:WorkflowViewState.IdRef="TypeInto_2" SendWindowMessages="False" SimulateType="False" Text="[filePath+&quot;Temp_Missing_Contacts.csv[k(enter)]&quot;]">
+                  <ui:TypeInto.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="fd91ee5fd17fd26bd72840c864041720" Selector="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;&lt;wnd ctrlid='1148' /&gt;" WaitForReady="INTERACTIVE" />
+                  </ui:TypeInto.Target>
+                </ui:TypeInto>
+                <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'SPAN'" sap2010:WorkflowViewState.IdRef="Click_5" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                  <ui:Click.CursorPosition>
+                    <ui:CursorPosition Position="Center">
+                      <ui:CursorPosition.OffsetX>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetX>
+                      <ui:CursorPosition.OffsetY>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetY>
+                    </ui:CursorPosition>
+                  </ui:Click.CursorPosition>
+                  <ui:Click.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="5840bbe89c68ce15b2d2f433249ce2b1" Selector="&lt;webctrl idx='4' parentid='destinationOptions' tag='SPAN' /&gt;" WaitForReady="INTERACTIVE" />
+                  </ui:Click.Target>
+                </ui:Click>
+                <ui:Click DelayBefore="{x:Null}" ClickType="CLICK_SINGLE" DelayMS="20000" DisplayName="Click 'BUTTON'" sap2010:WorkflowViewState.IdRef="Click_6" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                  <ui:Click.CursorPosition>
+                    <ui:CursorPosition Position="Center">
+                      <ui:CursorPosition.OffsetX>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetX>
+                      <ui:CursorPosition.OffsetY>
+                        <InArgument x:TypeArguments="x:Int32" />
+                      </ui:CursorPosition.OffsetY>
+                    </ui:CursorPosition>
+                  </ui:Click.CursorPosition>
+                  <ui:Click.Target>
+                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="15c9be3ac85f3ced7e95d0e7735f53b8" Selector="&lt;webctrl name='import' tag='BUTTON' /&gt;" WaitForReady="INTERACTIVE" />
+                  </ui:Click.Target>
+                </ui:Click>
+                <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="Close window 'chrome.exe TESTING'" sap2010:WorkflowViewState.IdRef="CloseWindow_1" InformativeScreenshot="0a7c16c803e39afedeb3ccf77cc3b026" WaitForReady="INTERACTIVE" />
+              </Sequence>
+            </ActivityAction>
+          </ui:OpenBrowser.Body>
+        </ui:OpenBrowser>
+        <ui:Delete ContinueOnError="{x:Null}" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[filePath+&quot;Temp_Missing_Contacts.csv&quot;]" />
+        <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="Upload missing contacts: End" />
+      </Sequence>
+    </TryCatch.Try>
+    <TryCatch.Catches>
+      <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+        <ActivityAction x:TypeArguments="s:Exception">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+          </ActivityAction.Argument>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke workflow file" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\Asset Library\Assets\0001 Send Email.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="strRecipient">michael.griese@gsa.gov</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strSubject">AP Email Notification error</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strBotEmail">gsa_ocfo_rpa_apemailnotification@gsa.gov</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strEmailBody">["AP Email Notification bot - error at step Upload Missing Contacts"+"&lt;br&gt;"+exception.ToString]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strCC">gsa_ocfo_rpa_apemailnotification@gsa.gov</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </ActivityAction>
+      </Catch>
+    </TryCatch.Catches>
+    <sads:DebugSymbol.Symbol>d6MBXFxlMDRibXYtY2lmczAxXFIxM19DRk9fc2hhcmUkXFIxM19SUEFcUlBBIERldmVsb3BtZW50XEFzaW1vdiBBU0ktVDA1XEFQIEVtYWlsIE5vdGlmaWNhdGlvbnMgQVNJLVQwNS1QMDFcUHJvY2VzcyBEb2N1bWVudGF0aW9uXFNjcmlwdHNcVXBsb2FkIE1pc3NpbmcgQ29udGFjdHMueGFtbDsB7wIBzgMBBAHxAQHXAgEDAU0B1QEBAkkD0AEOAgEBSwe7ARICAQrDAQvLASMCAQJMCUyDAQIBQE0JZCQCASllCbgBGgIBELkBCbkBlAECAQ26AQm6AYEBAgELyQFEyQFsAgEJyAFLyAGwAQIBB8UBS8UBYQIBBscBSscBcgIBBcYBScYBZAIBBMMBtwHDAYkCAgEDTGBMgAECAUFNpAFNtwECAT5TD2EaAgEqZcMBZdIBAgEnaw+1ARoCARG5AV+5AZEBAgEOugFgugF+AgEMVkBW2QECAStZEVnDAQIBO1oRXiQCATZfEV/hAQIBMWARYIACAgEsbUBtyAECARNuQG5SAgEScBF0HwIBJHUReR8CASJ6EYsBIQIBIIwBEZABIQIBH5EBEZUBHwIBGpYBEaQBHAIBGKUBEbMBHAIBFbQBEbQBlQICARRZgwFZkgECAT1ZQ1lZAgE8WihaLAIBOlxEXE0CAThagQFakwECATdfQF9SAgE0X6UBX8EBAgEzX8wBX94BAgEyYFJgZAIBL2CaAWDMAQIBLXCeAnCyAgIBJnCDAXCKAQIBJXWhAnW1AgIBI4YBP4YBRAIBIZMBpAGTAfkBAgEekQGeApEB2gICARyRAYMBkQGJAQIBG6IBpAGiAegBAgEZsQGkAbEB0gECARelAVOlAVoCARY=</sads:DebugSymbol.Symbol>
+  </TryCatch>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="414,61" />
+      <sap2010:ViewStateData Id="InvokeVBA_1" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="ExcelReadCell_1" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="ExcelReadRange_1" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="WriteCsvFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,536">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_1" sap:VirtualizedContainerService.HintSize="414,645">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TypeInto_3" sap:VirtualizedContainerService.HintSize="314,96" />
+      <sap2010:ViewStateData Id="TypeInto_4" sap:VirtualizedContainerService.HintSize="314,96" />
+      <sap2010:ViewStateData Id="ClickImage_2" sap:VirtualizedContainerService.HintSize="314,106" />
+      <sap2010:ViewStateData Id="SendHotkey_1" sap:VirtualizedContainerService.HintSize="314,116" />
+      <sap2010:ViewStateData Id="TypeInto_2" sap:VirtualizedContainerService.HintSize="314,134" />
+      <sap2010:ViewStateData Id="Click_5" sap:VirtualizedContainerService.HintSize="314,106" />
+      <sap2010:ViewStateData Id="Click_6" sap:VirtualizedContainerService.HintSize="314,106" />
+      <sap2010:ViewStateData Id="CloseWindow_1" sap:VirtualizedContainerService.HintSize="314,106" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,1270">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="OpenBrowser_1" sap:VirtualizedContainerService.HintSize="414,1369" />
+      <sap2010:ViewStateData Id="Delete_1" sap:VirtualizedContainerService.HintSize="414,22" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="414,61" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="436,2442">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Catch`1_1" sap:VirtualizedContainerService.HintSize="404,21">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="418,287" />
+      <sap2010:ViewStateData Id="Main_1" sap:VirtualizedContainerService.HintSize="458,518" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

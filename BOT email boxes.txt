@@ -1,0 +1,20 @@
+zone1 cc email zone1receivingreports@gsa.gov
+zone2 CC email Zone2ReceivingReports@GSA.gov
+zone3 CC email zone3.receiving.reports@gsa.gov
+zone4 cc email ncr-accountspayable@gsa.gov
+
+
+corEMAIL.tostring+","+coemail.tostring+","+csemail.tostring
+
+corS1Email.tostring+","+coS1Email.tostring
+
+corS1Email.tostring+","+coS1Email.tostring+","+corS2Email.tostring+","+coS2Email.tostring
+
+
+<15 days strRecipient: corEMAIL.tostring+","+coemail.tostring+","+csemail.tostring
+15 days strRecipient: corEMAIL.tostring+","+coemail.tostring+","+csemail.tostring
+15 days strCC: "zone1receivingreports@gsa.gov"+","+corS1Email.tostring+","+coS1Email.tostring
+>15 days strRecipient: corEMAIL.tostring+","+coemail.tostring+","+csemail.tostring
+>15 days strCC: "zone1receivingreports@gsa.gov"+","+corS1Email.tostring+","+coS1Email.tostring+","+corS2Email.tostring+","+coS2Email.tostring
+
+pbsfincopackages@gsa.gov

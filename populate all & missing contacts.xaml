@@ -1,0 +1,331 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="populate_all___missing_contacts"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="needs_contacts" Type="InOutArgument(sd:DataRow[])" />
+    <x:Property Name="PDN" Type="InArgument(ui:GenericValue)" />
+    <x:Property Name="readyContacts" Type="OutArgument(sd:DataRow[])" />
+    <x:Property Name="dtCompletedLines" Type="InOutArgument(sd:DataRow[])" />
+    <x:Property Name="dtRemainingLines" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Orchestrator.Client</x:String>
+      <x:String>UiPath.Orchestrator.Client.Models</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.CSV.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.CSV</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Mail.Exchange.Activities</x:String>
+      <x:String>UiPath.Mail.IMAP.Activities</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Mail.POP3.Activities</x:String>
+      <x:String>UiPath.Mail.SMTP.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OrchestratorClient</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <ui:ExcelApplicationScope Password="{x:Null}" sap2010:Annotation.AnnotationText="Name of excel file and ext. goes in the workbook path&#xA;" CreateNewFile="False" DisplayName="Populate ALL and Missing Contacts" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" WorkbookPath="[filepath+fileworkingcopy]">
+    <ui:ExcelApplicationScope.Body>
+      <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+        <ActivityAction.Argument>
+          <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+        </ActivityAction.Argument>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+          <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_7">
+            <ui:ExcelReadRange AddHeaders="True" sap2010:Annotation.AnnotationText="reads the range to store in a data table (Detail 1, 3-Seperate Data)&#xA;" DataTable="[dtRemainingLines]" DisplayName="Read Range" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="A1" SheetName="All Detail by Invoice" />
+            <Assign sap2010:Annotation.AnnotationText="filters datatable for rows with all contacts from macro (Detail 2, 3-Seperate Data)&#xA;&#xA;Checks columns AE for  &quot;READY&quot;, K = P040,&#xA;&#xA;**change select vb.net code to edit criteria" sap2010:WorkflowViewState.IdRef="Assign_1">
+              <Assign.To>
+                <OutArgument x:TypeArguments="sd:DataRow[]">[dtCompletedLines]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="sd:DataRow[]" xml:space="preserve">[dtRemainingLines.Select("(Convert([Email Status],'System.String') like 'READY' and Convert([Peg Doc Num],'System.String') not like 'EN*' and Convert([Peg Doc Num],'System.String') not like 'PN*' and Convert([Status],'System.String') ='P040') AND ([Daysold]=1 or [Daysold]=5  or [Daysold]=10 or [Daysold]=15 or [Daysold]=20 or [Daysold]=25)")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_24" Text="[&quot;There are &quot;+dtCompletedLines.Count.tostring+ &quot; lines complete and ready for emails&quot;]" />
+            <If Condition="[dtcompletedlines.Count() &gt; 0]" sap2010:WorkflowViewState.IdRef="If_46">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_68">
+                  <ui:ExcelWriteRange AddHeaders="True" sap2010:Annotation.AnnotationText="Writes filtered range to new sheet in workbook referenced in activity scope (Detail 2 of 3-Seperate Data)&#xA;&#xA;**copytodatatable (used to convert datarow to datatable" DataTable="[dtCompletedLines.copytodatatable]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_5" SheetName="All Contacts" StartingCell="A1" />
+                  <ui:ExcelSelectRange DisplayName="Select Range" sap2010:WorkflowViewState.IdRef="ExcelSelectRange_3" Range="A2:AF99999" SheetName="All Contacts" />
+                  <ui:SendHotkey DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Send hotkey 'client AP'" EmptyField="False" sap2010:WorkflowViewState.IdRef="SendHotkey_3" Key="del" KeyModifiers="None" SendWindowMessages="False" SpecialKey="True">
+                    <ui:SendHotkey.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="858733b968e023eb72b225e2788f211b" Selector="&lt;wnd app='excel.exe' cls='XLMAIN' title='Microsoft Excel - AP Notification Working File*' /&gt;&lt;wnd cls='EXCEL7' title='AP Notification Working File*' /&gt;&lt;ctrl name='AP Notification Working File*' role='client' /&gt;" WaitForReady="INTERACTIVE" />
+                    </ui:SendHotkey.Target>
+                  </ui:SendHotkey>
+                  <ui:ExcelWriteRange AddHeaders="True" sap2010:Annotation.AnnotationText="Writes filtered range to new sheet in workbook referenced in activity scope (Detail 2 of 3-Seperate Data)&#xA;&#xA;**copytodatatable (used to convert datarow to datatable" DataTable="[dtCompletedLines.copytodatatable]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_6" SheetName="All Contacts" StartingCell="A1" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_72">
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_21" Text="There ARE NOT any new complete lines" />
+                </Sequence>
+              </If.Else>
+            </If>
+            <ui:ExcelReadRange AddHeaders="True" DataTable="[dtALLcontacts]" DisplayName="Read Range" sap2010:WorkflowViewState.IdRef="ExcelReadRange_4" Range="A1" SheetName="All Contacts" />
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_34">
+              <Assign.To>
+                <OutArgument x:TypeArguments="sd:DataRow[]">[readyContacts]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="sd:DataRow[]">[dtALLcontacts.Select("[Email Status]= 'READY' ")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap2010:Annotation.AnnotationText="filters datatable for rows needing contacts from macro (Detail 3, 3-Seperate Data)&#xA;&#xA;Checks columns AE for   &quot;Missing CO Info&quot;, K = P040, AF= New PDN (so we are not having dupicate PDNs on our Missing infor sheet)&#xA;&#xA;**change select vb.net code to edit criteria" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="sd:DataRow[]">[needs_contacts]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="sd:DataRow[]" xml:space="preserve">[dtRemainingLines.Select("(Convert([Email Status],'System.String') like 'Missing CO/COR Info' and Convert([Dup. Check],'System.String') like 'NEW PDN' and Convert([Status],'System.String') ='P040') AND  ([Daysold]=1 or [Daysold]=5  or [Daysold]=10 or [Daysold]=15 or [Daysold]=20 or [Daysold]=25)")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <If Condition="[needs_contacts.Count() &gt; 0]" sap2010:WorkflowViewState.IdRef="If_47">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_70">
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_69">
+                    <ui:ExcelWriteRange AddHeaders="True" sap2010:Annotation.AnnotationText="Writes filtered range to new sheet in workbook referenced in activity scope (Detail 5 of Step mapping 3)&#xA;&#xA;**copytodatatable (used to convert datarow to datatable" DataTable="[Needs_Contacts.copytodatatable]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_3" SheetName="Contacts Pending" StartingCell="A1" />
+                    <ui:ExcelSelectRange DisplayName="Select Range" sap2010:WorkflowViewState.IdRef="ExcelSelectRange_2" Range="A1:XFD99999 " SheetName="Contacts Pending" />
+                    <ui:SendHotkey DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Send hotkey 'client AP'" EmptyField="False" sap2010:WorkflowViewState.IdRef="SendHotkey_2" Key="del" KeyModifiers="None" SendWindowMessages="False" SpecialKey="True">
+                      <ui:SendHotkey.Target>
+                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="6bed94158e8e476f8bbb1a5a3e1cfa70" Selector="&lt;wnd app='excel.exe' cls='XLMAIN' title='Microsoft Excel - AP Notification Working File*' /&gt;&lt;wnd cls='EXCEL7' title='AP Notification Working File*' /&gt;&lt;ctrl name='AP Notification Working File*' role='client' /&gt;" WaitForReady="INTERACTIVE" />
+                      </ui:SendHotkey.Target>
+                    </ui:SendHotkey>
+                    <ui:ExcelWriteRange AddHeaders="True" sap2010:Annotation.AnnotationText="Writes filtered range to new sheet in workbook referenced in activity scope (Detail 5 of Step mapping 3)&#xA;&#xA;**copytodatatable (used to convert datarow to datatable" DataTable="[Needs_Contacts.copytodatatable]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_7" SheetName="Contacts Pending" StartingCell="A1" />
+                  </Sequence>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_74">
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_73">
+                    <ui:ExcelWriteRange AddHeaders="True" sap2010:Annotation.AnnotationText="Writes filtered range to new sheet in workbook referenced in activity scope (Detail 5 of Step mapping 3)&#xA;&#xA;**copytodatatable (used to convert datarow to datatable" DataTable="[Needs_Contacts.copytodatatable]" DisplayName="Write Range" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_8" SheetName="Contacts Pending" StartingCell="A1" />
+                    <ui:ExcelSelectRange DisplayName="Select Range" sap2010:WorkflowViewState.IdRef="ExcelSelectRange_5" Range="A1:XFD99999 " SheetName="Contacts Pending" />
+                    <ui:SendHotkey DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="Send hotkey 'client AP'" EmptyField="False" sap2010:WorkflowViewState.IdRef="SendHotkey_5" Key="del" KeyModifiers="None" SendWindowMessages="False" SpecialKey="True">
+                      <ui:SendHotkey.Target>
+                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="6bed94158e8e476f8bbb1a5a3e1cfa70" Selector="&lt;wnd app='excel.exe' cls='XLMAIN' title='Microsoft Excel - AP Notification Working File*' /&gt;&lt;wnd cls='EXCEL7' title='AP Notification Working File*' /&gt;&lt;ctrl name='AP Notification Working File*' role='client' /&gt;" WaitForReady="INTERACTIVE" />
+                      </ui:SendHotkey.Target>
+                    </ui:SendHotkey>
+                  </Sequence>
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_25" Text="There ARE NOT any new Contacts Pending lines" />
+                </Sequence>
+              </If.Else>
+            </If>
+            <ui:ExcelSaveWorkbook DisplayName="Save Workbook" sap2010:WorkflowViewState.IdRef="ExcelSaveWorkbook_1" />
+          </Sequence>
+        </Sequence>
+      </ActivityAction>
+    </ui:ExcelApplicationScope.Body>
+    <sads:DebugSymbol.Symbol>d6sBXFxlMDRibXYtY2lmczAxXFIxM19DRk9fc2hhcmUkXFIxM19SUEFcUlBBIERldmVsb3BtZW50XEFzaW1vdiBBU0ktVDA1XEFQIEVtYWlsIE5vdGlmaWNhdGlvbnMgQVNJLVQwNS1QMDFcUHJvY2VzcyBEb2N1bWVudGF0aW9uXFNjcmlwdHNccG9wdWxhdGUgYWxsICYgbWlzc2luZyBjb250YWN0cy54YW1sR1MDrQEeAgEBU50CU7kCAgFNWQmpARQCAQJaC6gBFgIBA1sNW7oCAgFIXA1jFgIBRGQNZNQBAgFCZQ13EgIBL3gNeMABAgEreQ2AARYCASeBAQ2IARYCASOJAQ2mARICAQWnAQ2nAXcCAQRbqgFbvgECAUtbkQJblQICAUpboAJbtwICAUlePV5PAgFFZGVk0QECAUNlG2U+AgEwZxFwHAIBNHMRdRwCATF4PHhNAgEueKABeKQBAgEteK8BeL0BAgEsfjx+bgIBKns9e0wCASiDAT2DAU0CASSJARuJATwCAQaLARGWARwCARSZARGkARwCAQdoE2iyAwIBPmkTaaYBAgE7ahNuIwIBOW8Tb7IDAgE1dBN0lAECATKMAROVAR4CARWaAROiAR4CAQqjAROjAZwBAgEIaKsDaK8DAgFBaJICaLYCAgFAaI8DaJ0DAgE/aX5pigECAT1plQFpowECATxspgFsiwMCATpvqwNvrwMCAThvkgJvtgICATdvjwNvnQMCATZ0a3SRAQIBM40BFY0BtQMCAR+OARWOAa4BAgEcjwEVkwElAgEalAEVlAG1AwIBFpsBFZsBtQMCARCcARWcAa4BAgENnQEVoQElAgELowFrowGZAQIBCY0BrgONAbIDAgEijQGTAo0BtQICASGNAY4DjQGgAwIBII4BgAGOAY4BAgEejgGZAY4BqwECAR2RAagBkQGNAwIBG5QBrgOUAbIDAgEZlAGTApQBtQICARiUAY4DlAGgAwIBF5sBrgObAbIDAgETmwGTApsBtQICARKbAY4DmwGgAwIBEZwBgAGcAY4BAgEPnAGZAZwBqwECAQ6fAagBnwGNAwIBDA==</sads:DebugSymbol.Symbol>
+  </ui:ExcelApplicationScope>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="ExcelReadRange_1" sap:VirtualizedContainerService.HintSize="741,59">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="741,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_24" sap:VirtualizedContainerService.HintSize="741,61" />
+      <sap2010:ViewStateData Id="ExcelWriteRange_5" sap:VirtualizedContainerService.HintSize="314,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelSelectRange_3" sap:VirtualizedContainerService.HintSize="314,59">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SendHotkey_3" sap:VirtualizedContainerService.HintSize="314,154">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelWriteRange_6" sap:VirtualizedContainerService.HintSize="314,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_68" sap:VirtualizedContainerService.HintSize="336,595">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_21" sap:VirtualizedContainerService.HintSize="211,61" />
+      <sap2010:ViewStateData Id="Sequence_72" sap:VirtualizedContainerService.HintSize="233,185">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_46" sap:VirtualizedContainerService.HintSize="741,742" />
+      <sap2010:ViewStateData Id="ExcelReadRange_4" sap:VirtualizedContainerService.HintSize="741,59" />
+      <sap2010:ViewStateData Id="Assign_34" sap:VirtualizedContainerService.HintSize="741,60" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="741,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelWriteRange_3" sap:VirtualizedContainerService.HintSize="314,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelSelectRange_2" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="SendHotkey_2" sap:VirtualizedContainerService.HintSize="314,154" />
+      <sap2010:ViewStateData Id="ExcelWriteRange_7" sap:VirtualizedContainerService.HintSize="314,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_69" sap:VirtualizedContainerService.HintSize="336,631">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_70" sap:VirtualizedContainerService.HintSize="358,755">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelWriteRange_8" sap:VirtualizedContainerService.HintSize="314,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelSelectRange_5" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="SendHotkey_5" sap:VirtualizedContainerService.HintSize="314,154" />
+      <sap2010:ViewStateData Id="Sequence_73" sap:VirtualizedContainerService.HintSize="336,504">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_25" sap:VirtualizedContainerService.HintSize="336,61" />
+      <sap2010:ViewStateData Id="Sequence_74" sap:VirtualizedContainerService.HintSize="358,729">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_47" sap:VirtualizedContainerService.HintSize="741,902" />
+      <sap2010:ViewStateData Id="ExcelSaveWorkbook_1" sap:VirtualizedContainerService.HintSize="741,22" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="763,2469">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="785,2593">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_1" sap:VirtualizedContainerService.HintSize="799,2742">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

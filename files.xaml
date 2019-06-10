@@ -1,0 +1,196 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="files"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="booleanFileExists3" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="booleanFileExists2" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="booleanFileExists1" Type="OutArgument(x:Boolean)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>files_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Orchestrator.Client</x:String>
+      <x:String>UiPath.Orchestrator.Client.Models</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.CSV.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.CSV</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Mail.Exchange.Activities</x:String>
+      <x:String>UiPath.Mail.IMAP.Activities</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Mail.POP3.Activities</x:String>
+      <x:String>UiPath.Mail.SMTP.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OrchestratorClient</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+    <ui:PathExists DisplayName="Daily Workingfile exists" Exists="[booleanFileExists1]" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[&quot;\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\&quot;+&quot;ra_report_&quot;+Now.ToString(&quot;dMMMyyyy&quot;).ToLower+&quot;.xlsx&quot;]" PathType="File" />
+    <If Condition="[booleanFileExists1 = true]" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
+        <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="Daily invoice file exists" />
+      </If.Then>
+      <If.Else>
+        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="Today's 'ra_report' has NOT been saved to 'Scripts' folder, please save it manually and click OK button after saved." TopMost="True" />
+      </If.Else>
+    </If>
+    <ui:PathExists DisplayName="Daily Workingfile exists" Exists="[booleanFileExists2]" sap2010:WorkflowViewState.IdRef="PathExists_3" Path="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\Z_ICSH_REPORTS_TO_PBSBOT.csv" PathType="File" />
+    <If Condition="[booleanFileExists2 = true]" sap2010:WorkflowViewState.IdRef="If_3">
+      <If.Then>
+        <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="Supervisor file exists" />
+      </If.Then>
+      <If.Else>
+        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="Weekly 'Z_ICSH_REPORTS_TO_PBSBOT' has NOT been saved to 'Scripts' folder, please save it manually and click OK button after saved." TopMost="True" />
+      </If.Else>
+    </If>
+    <ui:PathExists DisplayName="Daily Workingfile exists" Exists="[booleanFileExists3]" sap2010:WorkflowViewState.IdRef="PathExists_4" Path="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\CO-CS-FCO Data (New).xlsx" PathType="File" />
+    <If Condition="[booleanFileExists3 = true]" sap2010:WorkflowViewState.IdRef="If_4">
+      <If.Then>
+        <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_7" Text="CO-CS-FCO Data file exists" />
+      </If.Then>
+      <If.Else>
+        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_3" Text="Weekly 'CO-CS-FCO Data (New)' has NOT been saved to 'Scripts' folder, please save it manually and click OK button after saved." TopMost="True" />
+      </If.Else>
+    </If>
+    <If Condition="[booleanFileExists1 = True AND booleanfileexists2 =true and booleanfileexists3 = true]" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="Files are present in shared source directory" />
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="Files NOT saved" />
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke workflow file" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="0001 Send Email.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="strRecipient">michael.griese@gsa.gov</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strSubject">AP Email Notification error</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strBotEmail">gsa_ocfo_rpa_apemailnotification@gsa.gov</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strEmailBody">AP Email Notification bot - error at step files not in directory</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="strCC" />
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <TerminateWorkflow DisplayName="Terminate workflow" sap2010:WorkflowViewState.IdRef="TerminateWorkflow_1" Reason="Files not present, rerun BOT from the start" />
+        </Sequence>
+      </If.Else>
+    </If>
+    <sads:DebugSymbol.Symbol>d5EBXFxlMDRibXYtY2lmczAxXFIxM19DRk9fc2hhcmUkXFIxM19SUEFcUlBBIERldmVsb3BtZW50XEFzaW1vdiBBU0ktVDA1XEFQIEVtYWlsIE5vdGlmaWNhdGlvbnMgQVNJLVQwNS1QMDFcUHJvY2VzcyBEb2N1bWVudGF0aW9uXFNjcmlwdHNcZmlsZXMueGFtbCxTA4YBDgIBAVQFVIsDAgEyVQVcCgIBK10FXcUCAgEnXgVlCgIBIGYFZsICAgEcZwVuCgIBFW8FhAEKAgECVEJUWAIBNFSNAVT4AgIBM1UTVTACASxXCVd+AgEwWglapgICAS5dQl1YAgEpXY0BXbICAgEoXhNeMAIBIWAJYHsCASVjCWO0AgIBI2ZCZlgCAR5mjQFmrwICAR1nE2cwAgEWaQlpfwIBGmwJbLACAgEYbxNvawIBA3EJcxQCARJ2CYIBFAIBB1dgV3sCATFangFalAICAS9gYGB4AgEmY54BY6ICAgEkaWBpfAIBG2yeAWyeAgIBGXILcpMBAgETdwt3dgIBEHgLgAEjAgEKgQELgQGsAQIBCHJicpABAgEUd2J3cwIBEX1LfYsBAgEPekt6YQIBDnxKfHICAQ17SXtkAgEMeLcBeM0BAgELgQF8gQGpAQIBCQ==</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="PathExists_2" sap:VirtualizedContainerService.HintSize="594,89">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="211,61" />
+      <sap2010:ViewStateData Id="MessageBox_1" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="594,209" />
+      <sap2010:ViewStateData Id="PathExists_3" sap:VirtualizedContainerService.HintSize="594,89">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="211,61" />
+      <sap2010:ViewStateData Id="MessageBox_2" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="594,209" />
+      <sap2010:ViewStateData Id="PathExists_4" sap:VirtualizedContainerService.HintSize="594,89">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_7" sap:VirtualizedContainerService.HintSize="211,61" />
+      <sap2010:ViewStateData Id="MessageBox_3" sap:VirtualizedContainerService.HintSize="314,59" />
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="594,209" />
+      <sap2010:ViewStateData Id="WriteLine_3" sap:VirtualizedContainerService.HintSize="211,61" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="233,185">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="TerminateWorkflow_1" sap:VirtualizedContainerService.HintSize="314,22" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="336,374">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="594,522" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="616,1780">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="files_1" sap:VirtualizedContainerService.HintSize="656,1860" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

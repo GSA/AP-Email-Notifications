@@ -1,0 +1,16 @@
+Invoice # <b>{7}</b> from <b>{8}</b> in the amount of <b>{9}</b> has been received by GSA for contract # <b>{10}</b> (PDN <b>{11}</b>) and is now <b>{12}</b> days old.  Please take the necessary action to ensure this invoice is paid timely by submitting a receiving report (GSA Form 3025) to pbsfincopackages@gsa.gov or SPDinvoices@gsa.gov if this is associated with P00Q1200.<br>
+<br>
+Invoice detail may be found using Invoice Search. Please see our <a href="https://docs.google.com/document/d/1FOLMU6AbwwePEmrSf0Si36iFu1tor7uMo4Z6symSTjQ/view">Guide to Invoice Search</a>. If you have already submitted your receiving report package, please disregard this email.<br> 
+<br>
+If you need to reject the invoice or have any questions please send an email to pbsfincopackages@gsa.gov  or SPDinvoices@gsa.gov.
+<br>
+<br>
+CO: {0}<br>
+COR: {1}<br>
+CS: {2}<br>
+COS1: {3}<br>
+COS2: {4}<br>
+CORS1: {5}<br>
+CORS2: {6}<br>
+<br>
+Email produced by RPA AP Email Notification BOT

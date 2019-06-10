@@ -1,0 +1,22 @@
+Invoice # <b>{7}</b> from <b>{8}</b> in the amount of <b>{9}</b> has been received by GSA for contract # <b>{10}</b> and PDN # <b>{11}</b>.<br>
+<br>
+Please submit a receiving report package to the Pegasys Data Entry Tool at: https://gsa.lightning.force.com/c/PDE.app. 
+If you have already submitted a receiving report package to the PDE Tool, thank you and please disregard this notification.<br>
+<br>
+If you believe this invoice is invalid, please send an email to zone1receivingreports@gsa.gov with the reason for rejection.<br>
+<br>
+You may request a copy of your invoice by sending an email to zone1receivingreports@gsa.gov or by using Invoice Search.<br>
+Please see our Guide to Invoice Search: https://docs.google.com/document/d/1NFpAFQWYnKdaYWxwsCOC_yIEUyQObWHr5tfUs7_2C44/edit?usp=sharing<br>
+<br>
+Please send any questions to zone1receivingreports@gsa.gov.<br>
+<br>
+<br>
+CO: {0}<br>
+COR: {1}<br>
+CS: {2}<br>
+COS1: {3}<br>
+COS2: {4}<br>
+CORS1: {5}<br>
+CORS2: {6}<br>
+<br>
+Email produced by RPA AP Email Notification BOT

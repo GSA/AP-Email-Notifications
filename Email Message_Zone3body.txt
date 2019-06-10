@@ -1,0 +1,35 @@
+This notification is being sent to inform you <b>{7}</b>, Invoice #<b>{8}</b> in the amount of <b>{9}</b> has been received by Finance for Contract <b>{10}</b>, PDN# <b>{11}</b> and is now <b>{12}</b> days old.<br>
+<br>
+To ensure this invoice is paid timely and to prevent interest penalties, please complete and submit the proper receiving report (GSA 3025, email acceptance etc.) to either:<br>
+<br>
+<a href="https://gsa.lightning.force.com/c/PDE.app">PDE Tool</a> - Non-Recurring - (i.e. PS,PJ, EP) <br>
+<a href="recurringservices@gsa.gov">Recurring mailbox</a> - Recurring - ( i.e. 1B, RB)<br>
+Contracting Officer/USDA Finance - Construction - (i.e. EN, PN)<br>
+EASi  - via Automated Receiving Report Module<br>
+<br>
+<b>If you have already submitted a receiving report, please disregard this notification.</b> <br>
+<br>
+<b>NOTE:</b> If you need to reject the invoice, please send an email request along with the reason to the zone3.receiving.reports@gsa.gov.<br>
+<br>
+<b><u>GSA Order, CFO 4252.1C, Accounts Payable Policy Manual</b></u> "acceptance of the goods or services must take place within 7 calendar days following the receipt of goods or services, unless other terms are included in the contract. <br>
+<br>
+For detailed invoice information: <a href="https://docs.google.com/spreadsheets/d/1LNiTZFR-HQOuEobjDPHVOxrdIYPH7oVfYy9uAbu9Heg/edit#gid=1647547127">FM Outstanding Invoice Report</a><br>
+<br>
+For detailed instructions on requesting access to Invoice Search and Form, review links:<br>
+<a href="https://docs.google.com/document/d/11ZKupNAnqna8RJmq_bfx6E-GXeD4SEaV1Pm7ITrchvU/edit">Instructions for completing SYSTEM ACCESS REQUEST FORM FOR GSA PEGASYS ACCESS</a><br>
+<a href="https://docs.google.com/document/d/1wTd8ORMYM37nLaZ8AdgrPe0wET35xPQkLEPDbKaCB90/edit#heading=h.gjdgxs">PegasysAccessRequestForm_Final508Version_v.3</a><br>
+<br>
+<a href="https://docs.google.com/document/d/1hQkSYZ9HNgPgC-t7Q_8I0Y6y-1PH_hM5REnTDdosvhA/edit">Guide to Invoice Search</a>. <br>
+<br>
+All questions may be directed to: michelle.lacome@gsa.gov
+<br>
+<br>
+CO: {0}<br>
+COR: {1}<br>
+CS: {2}<br>
+COS1: {3}<br>
+COS2: {4}<br>
+CORS1: {5}<br>
+CORS2: {6}<br>
+<br>
+Email produced by RPA AP Email Notification BOT

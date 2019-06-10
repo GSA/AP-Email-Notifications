@@ -1,0 +1,232 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="Main_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="vGSAemail" />
+      <Variable x:TypeArguments="s:String[]" Name="filePSquery" />
+    </Sequence.Variables>
+    <ui:RetryScope DisplayName="Retry scope" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="3" RetryInterval="00:00:10">
+      <ui:RetryScope.ActivityBody>
+        <ActivityAction>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_11">
+            <Sequence DisplayName="Action" sap2010:WorkflowViewState.IdRef="Sequence_10">
+              <ui:GetPOP3MailMessages TimeoutMS="{x:Null}" Top="{x:Null}" DeleteMessages="False" DisplayName="Get AP Email Notification Emails (POP3)" Email="gsa_ocfo_rpa_apemailnotification@gsa.gov" EnableSSL="False" sap2010:WorkflowViewState.IdRef="GetPOP3MailMessages_1" Messages="[vGSAemail]" Password="izcqwkupaqbxzaad" Port="995" SecureConnection="Auto" Server="POP.GMAIL.COM" />
+            </Sequence>
+          </Sequence>
+        </ActivityAction>
+      </ui:RetryScope.ActivityBody>
+      <ui:RetryScope.Condition>
+        <ActivityFunc x:TypeArguments="x:Boolean" />
+      </ui:RetryScope.Condition>
+    </ui:RetryScope>
+    <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="Emails Pulled" />
+    <ui:ForEach x:TypeArguments="snm:MailMessage" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[vGSAemail]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="snm:MailMessage">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="mail" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="Loop Started" />
+            <If Condition="[mail.subject.ToString.Contains(&quot;Invoices On Hand - Summary Daily Mgmt Report&quot;)]" sap2010:WorkflowViewState.IdRef="If_2">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="Found email with Invoices On Hand" />
+                  <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" Message="[mail]">
+                    <ui:SaveMailAttachments.FolderPath>
+                      <InArgument x:TypeArguments="x:String">
+                        <Literal x:TypeArguments="x:String" Value="" />
+                      </InArgument>
+                    </ui:SaveMailAttachments.FolderPath>
+                  </ui:SaveMailAttachments>
+                </Sequence>
+              </If.Then>
+            </If>
+            <If Condition="[mail.subject.ToString.Contains(&quot;EASi Awarded Contracts - CO/CS/FCO/Requestor Names (All)&quot;)]" sap2010:WorkflowViewState.IdRef="If_3">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="Found email with EASi award detail" />
+                  <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[mail]">
+                    <ui:SaveMailAttachments.FolderPath>
+                      <InArgument x:TypeArguments="x:String">
+                        <Literal x:TypeArguments="x:String" Value="" />
+                      </InArgument>
+                    </ui:SaveMailAttachments.FolderPath>
+                  </ui:SaveMailAttachments>
+                </Sequence>
+              </If.Then>
+            </If>
+            <If Condition="[mail.subject.ToString.Contains(&quot;Output from PSQUERY&quot;)]" sap2010:WorkflowViewState.IdRef="If_4">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="ui:GenericValue" Name="attachmentname" />
+                    <Variable x:TypeArguments="s:String[]" Name="filelist" />
+                  </Sequence.Variables>
+                  <WriteLine DisplayName="Write line" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="Found email with PSQUERY" />
+                  <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="PSQUERY" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_3" Message="[mail]" />
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[filePSquery]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[System.IO.Directory.Getfiles("\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\PSQUERY")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="x:Object" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[filePSquery]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="item" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_9">
+            <ui:MoveFile ContinueOnError="{x:Null}" Destination="\\e04bmv-cifs01\R13_CFO_share$\R13_RPA\RPA Development\Asimov ASI-T05\AP Email Notifications ASI-T05-P01\Process Documentation\Scripts\Z_ICSH_REPORTS_TO_PBSBOT.csv" DisplayName="Move file" sap2010:WorkflowViewState.IdRef="MoveFile_3" Overwrite="True" Path="[item.ToString]" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <sads:DebugSymbol.Symbol>d7IBXFxlMDRibXYtY2lmczAxXFIxM19DRk9fc2hhcmUkXFIxM19SUEFcUlBBIERldmVsb3BtZW50XEFzaW1vdiBBU0ktVDA1XEFQIEVtYWlsIE5vdGlmaWNhdGlvbnMgQVNJLVQwNS1QMDFcUHJvY2VzcyBEb2N1bWVudGF0aW9uXFNjcmlwdHNcUE9QMyBTYW1wbGUgV29ya2Zsb3cgLSBzYXZlIGF0dGFjaG1lbnQueGFtbDQ8A5kBDgIBAUEFThUCATRPBU9uAgEyUAWDARICAQ6EAQWLAQ4CAQqMAQWXARICAQJBf0GJAQIBP0FtQXACAT5EC0gWAgE1T1xPawIBM1B/UIwBAgEwVguAARYCAQ+JATKJAeIBAgENhgEzhgFAAgELjAF4jAGHAQIBCJIBC5QBFgIBA0UNRxgCATZXDVd1AgEuWA1lEgIBJGYNcxICARp0DX8SAgEQkwENkwHWAgIBBEYPRoIDAgE3V2RXcgIBL1gbWHcCASVaEWMcAgEnZhtmgwECARtoEXEcAgEddBt0XgIBEXYRfRwCAROTAUGTAeYBAgEHkwHCApMB0wICAQVGngFGyAECAT1GywJG0AICATxGnAJGqQICATpG8AJG/wICATlGswJGxQICAThbE1uQAQIBLFwTYiwCAShpE2mRAQIBImoTcCwCAR57E3uHAQIBGHwTfMEBAgEUW2pbjQECAS1coQFcqQECASpfGV9IAgEpaWppjgECASNqoQFqqQECASBtGW1IAgEfe2p7hAECARl8tgF8vgECARZ8bHx1AgEV</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="GetPOP3MailMessages_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_10" sap:VirtualizedContainerService.HintSize="222,146">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="244,270">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="RetryScope_1" sap:VirtualizedContainerService.HintSize="502,444" />
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="502,61" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="464,61" />
+      <sap2010:ViewStateData Id="WriteLine_3" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="SaveMailAttachments_1" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336,312">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="464,460" />
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="SaveMailAttachments_2" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="336,312">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="464,460" />
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="314,61" />
+      <sap2010:ViewStateData Id="SaveMailAttachments_3" sap:VirtualizedContainerService.HintSize="314,87" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="336,312">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="464,460" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="486,1685">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="502,1819" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="502,60" />
+      <sap2010:ViewStateData Id="MoveFile_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_9" sap:VirtualizedContainerService.HintSize="222,146">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_3" sap:VirtualizedContainerService.HintSize="502,280" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="524,2948">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Main_1" sap:VirtualizedContainerService.HintSize="564,3028" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
