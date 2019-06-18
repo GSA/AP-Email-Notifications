@@ -5,14 +5,14 @@
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. Reach out to GSA RPA or join the Federal RPA Community of Practice for notes on how to deploy the project on a live system.
 
 ## Pre-Requisites
-* UI Path Studio
+* UiPath Studio
 * G-mail (EAS)
 * Internet Browser 
 * MS Share Drive 
-* MS Excel 
+* Microsoft Excel 
 
 ## Built with 
-* UI Path Studio 
+* UiPath Studio 
 
 ## Function 
 This bot compiles mutiple daily and weekly reports to determine which outstanding accounts should receive an AP Email notification.
